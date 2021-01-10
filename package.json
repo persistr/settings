@@ -1,0 +1,33 @@
+{
+  "name": "@persistr/settings",
+  "version": "1.0.0",
+  "description": "Simple JSON settings store for Node.js and browsers",
+  "main": "index.js",
+  "scripts": {
+    "test": "nyc --silent npm run only:memory && nyc --silent --no-clean npm run only:file && nyc --silent --no-clean npm run only:localstorage && nyc report --reporter=lcov --reporter=text",
+    "test:memory": "nyc npm run only:memory",
+    "test:file": "nyc npm run only:file",
+    "test:localstorage": "nyc npm run only:localstorage",
+    "only:memory": "DB=memory ./node_modules/.bin/cucumber-js --publish-quiet ./tests/features -r ./tests/steps",
+    "only:file": "DB=file ./node_modules/.bin/cucumber-js --publish-quiet ./tests/features -r ./tests/steps",
+    "only:localstorage": "DB=localstorage ./node_modules/.bin/cucumber-js --publish-quiet ./tests/features -r ./tests/steps"
+  },
+  "keywords": [
+    "settings",
+    "JSON",
+    "store",
+    "Node.js",
+    "browsers"
+  ],
+  "author": "Sasa Djolic <sasa.djolic@gmail.com> (https://www.linkedin.com/in/sasadjolic/)",
+  "license": "GPL-3.0-only",
+  "devDependencies": {
+    "@cucumber/cucumber": "^7.0.0",
+    "json5": "^2.1.3",
+    "memfs": "^3.2.0",
+    "memorystorage": "^0.12.0",
+    "nyc": "^15.1.0",
+    "passgen": "^1.1.0"
+  },
+  "dependencies": {}
+}
