@@ -35,14 +35,14 @@ module.exports = {
   },
 
   file: (path, options) => {
-    const fs = options.fs ?? require('fs')
+    const fs = options?.fs ?? require('fs')
     if (!fs.existsSync(path)) fs.writeFileSync(path, '{}', 'utf-8')
     const settings = { type: 'file', fs, path, store: JSON.parse(fs.readFileSync(path, 'utf-8')) }
     return new Proxy(settings.store, handle(settings))
   },
 
   localStorage: (key, options) => {
-    const ls = options.localStorage ?? localStorage
+    const ls = options?.localStorage ?? localStorage
     const settings = { type: 'localStorage', ls, key, store: JSON.parse(ls[key] || '{}') }
     return new Proxy(settings.store, handle(settings))
   }
