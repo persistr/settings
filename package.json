@@ -1,6 +1,6 @@
 {
   "name": "@persistr/settings",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Simple JSON settings store for Node.js and browsers",
   "main": "index.js",
   "scripts": {
