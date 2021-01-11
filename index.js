@@ -24,6 +24,12 @@ let handle = (settings) => {
       }
 
       return true
+    },
+    deleteProperty: function (target, key) {
+      if (prop in target) {
+        target[key] = undefined
+        delete target[key]
+      }
     }
   }
 }
