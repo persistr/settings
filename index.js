@@ -1,36 +1,38 @@
 let handle = (settings) => {
   return {
     get: function(target, key) {
+      const value = target[key]
+      if (value && typeof value === 'object') {
+        return new Proxy(value, handle(settings))
+      }
       return target[key]
     },
     set: function(target, key, value) {
-      if (value && typeof value === 'object') {
-        value = new Proxy(value, handle(settings))
-      }
       target[key] = value
-
-      if (settings.type === 'file') {
-        clearTimeout(settings.timer)
-        settings.timer = setTimeout(() => {
-          settings.fs.writeFileSync(settings.path, JSON.stringify(settings.store), 'utf-8')
-        }, 300)
-      }
-
-      if (settings.type === 'localStorage') {
-        clearTimeout(settings.timer)
-        settings.timer = setTimeout(() => {
-          settings.ls[settings.key] = JSON.stringify(settings.store)
-        }, 300)
-      }
-
+      save(settings)
       return true
     },
     deleteProperty: function (target, key) {
-      if (key in target) {
-        target[key] = undefined
-        delete target[key]
-      }
+      if (key in target) delete target[key]
+      save(settings)
+      return true
     }
+  }
+}
+
+function save(settings) {
+  if (settings.type === 'file') {
+    clearTimeout(settings.timer)
+    settings.timer = setTimeout(() => {
+      settings.fs.writeFileSync(settings.path, JSON.stringify(settings.store), 'utf-8')
+    }, 300)
+  }
+
+  if (settings.type === 'localStorage') {
+    clearTimeout(settings.timer)
+    settings.timer = setTimeout(() => {
+      settings.ls[settings.key] = JSON.stringify(settings.store)
+    }, 300)
   }
 }
 
